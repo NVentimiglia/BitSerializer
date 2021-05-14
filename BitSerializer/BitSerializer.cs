@@ -100,7 +100,7 @@ namespace NVentimiglia
         }
 
         /// <summary>
-        /// Writes copy of paylod
+        /// returns copy of written buffer
         /// </summary>
         public byte[] Copy()
         {
@@ -234,6 +234,7 @@ namespace NVentimiglia
                 Index += sizeof(byte);
             }
         }
+     
         public byte Parse(byte value)
         {
             Parse(ref value);
@@ -257,6 +258,7 @@ namespace NVentimiglia
                 Index += sizeof(sbyte);
             }
         }
+     
         public sbyte Parse(sbyte value)
         {
             Parse(ref value);
@@ -430,6 +432,7 @@ namespace NVentimiglia
                 Index += sizeof(long);
             }
         }
+  
         public long Parse(long value)
         {
             Parse(ref value);
@@ -459,6 +462,7 @@ namespace NVentimiglia
                 Index += sizeof(ulong);
             }
         }
+     
         public ulong Parse(ulong value)
         {
             Parse(ref value);
@@ -631,6 +635,7 @@ namespace NVentimiglia
                 }
             }
         }
+      
         public unsafe bool[] Parse(bool[] value)
         {
             Parse(ref value);
@@ -664,6 +669,7 @@ namespace NVentimiglia
                 }
             }
         }
+      
         public unsafe ushort[] Parse(ushort[] value)
         {
             Parse(ref value);
@@ -697,6 +703,7 @@ namespace NVentimiglia
                 }
             }
         }
+      
         public unsafe short[] Parse(short[] value)
         {
             Parse(ref value);
@@ -730,6 +737,7 @@ namespace NVentimiglia
                 }
             }
         }
+      
         public unsafe int[] Parse(int[] value)
         {
             Parse(ref value);
@@ -796,6 +804,7 @@ namespace NVentimiglia
                 }
             }
         }
+      
         public unsafe long[] Parse(long[] value)
         {
             Parse(ref value);
@@ -862,6 +871,7 @@ namespace NVentimiglia
                 }
             }
         }
+      
         public unsafe double[] Parse(double[] value)
         {
             Parse(ref value);
@@ -895,6 +905,7 @@ namespace NVentimiglia
                 }
             }
         }
+     
         public unsafe float[] Parse(float[] value)
         {
             Parse(ref value);
@@ -965,7 +976,6 @@ namespace NVentimiglia
             Parse(ref value);
             return value;
         }
-
 
         public unsafe void Parse(ref string[] value)
         {
@@ -1172,6 +1182,12 @@ namespace NVentimiglia
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Rads a instance of this model from the internal buffer
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public T Read<T>() where T : IBitModel, new()
         {
             var model = new T();
@@ -1181,6 +1197,11 @@ namespace NVentimiglia
             return model;
         }
 
+        /// <summary>
+        /// Writes the model into the internal buffer
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="model"></param>
         public void Write<T>(T model) where T : IBitModel, new()
         {
             Reset();
@@ -1188,6 +1209,26 @@ namespace NVentimiglia
             model.Parse(this);
         }
 
+        /// <summary>
+        /// Model to bytes
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public byte[] WriteCopy<T>(T model) where T : IBitModel, new()
+        {
+            Reset();
+            IsWriting = false;
+            model.Parse(this);
+            return Copy();
+        }
+
+        /// <summary>
+        /// Reads from a passed buffer
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="payload">the array read to</param>
+        /// <returns></returns>
         public T ReadFrom<T>(byte[] payload) where T : IBitModel, new()
         {
             var model = new T();
@@ -1212,6 +1253,12 @@ namespace NVentimiglia
             return model;
         }
 
+        /// <summary>
+        /// Writes to a buffer array
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="model"></param>
+        /// <param name="payload">the array written to</param>
         public void WriteTo<T>(T model, byte[] payload) where T : IBitModel, new()
         {
             Reset();

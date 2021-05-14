@@ -5,6 +5,9 @@
 - Supports primitives, arrays, and objects using the IBitModel interface.
 - One class, One interface.
 
+### Implementation Strategy
+- Use one method 'Parse' and recursion to eliminate superfluous header data and separate read/write methods.
+- Manage a internal buffer inside the serializer to minimize copies.
 
 ### Serialization
     var stream = new BitSerializer(); 
@@ -55,6 +58,8 @@
 
         public void Parse(BitSerializer stream)
         {
+            // One method for mapping objects
+            // Uses recursion to eliminate headers
             stream.Parse(ref x);
             y = stream.Parse(y);
             stream.Parse(ref children);
