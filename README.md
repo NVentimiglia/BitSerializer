@@ -1,9 +1,8 @@
 # BitSerializer
 - Minimal binary serializer designed for performance.
 - Optimized for games / high performance apps.
-- Minimal header, structured layout, unsafe binary serialization.
-- Supports primiatives, arrays, and objects using an interface.
-- IBitModel interface allows for object serialization without any reflection
+- Uses a strictured layout, minimal headers, no box cast, and no reflection for maximum speed.
+- Supports primiatives, arrays, and objects using the IBitModel interface.
 - One class, One interface.
 
 
