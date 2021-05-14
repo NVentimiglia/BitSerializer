@@ -1182,17 +1182,16 @@ namespace NVentimiglia
         #endregion
 
         #region Helpers
-
+       
         /// <summary>
-        /// Rads a instance of this model from the internal buffer
+        /// Reads a instance of this model from the internal buffer
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public T Read<T>() where T : IBitModel, new()
         {
+            IsWriting = false;
             var model = new T();
-            Reset();
-            IsWriting = true;
             model.Parse(this);
             return model;
         }
@@ -1204,8 +1203,7 @@ namespace NVentimiglia
         /// <param name="model"></param>
         public void Write<T>(T model) where T : IBitModel, new()
         {
-            Reset();
-            IsWriting = false;
+            IsWriting = true;
             model.Parse(this);
         }
 
@@ -1217,8 +1215,7 @@ namespace NVentimiglia
         /// <returns></returns>
         public byte[] WriteCopy<T>(T model) where T : IBitModel, new()
         {
-            Reset();
-            IsWriting = false;
+            IsWriting = true;
             model.Parse(this);
             return Copy();
         }
