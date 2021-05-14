@@ -34,15 +34,15 @@
 ### IBitModel
     public struct MyObject : IBitModel, IEquatable<MyObject>
     {
-      	public int x;
-      	public int y;
+        public int x;
+        public int y;
 
-    	public MyObject[] children;
+        public MyObject[] children;
 
         public void Parse(BitSerializer stream)
         {
-          stream.Parse(ref x);
-          stream.Parse(ref y);
-          stream.Parse(ref children);
+            stream.Parse(ref x);
+            stream.Parse(ref y);
+            stream.Parse(ref children);
         }
     }
