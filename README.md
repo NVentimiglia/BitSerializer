@@ -47,6 +47,7 @@
 
     stream.WriteTo<IBitModel>(model, byte[] buffer);
     stream.Write<IBitModel>(model);    
+    byte[] copy = stream.WriteCopy<IBitModel>(model);
       
 ### IBitModel
     public struct MyObject : IBitModel
