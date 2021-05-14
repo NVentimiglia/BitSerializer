@@ -18,10 +18,13 @@
     IBitModel myObject;
     stream.Parse(ref myObject);
     myObject = stream.Parse(myObject);
+
+    _socket.PostBytes(stream.Data, stream.Index);
     
   
 ### Deserialization
     var stream = new BitSerializer(); 
+    stream.Data = _socket.GetBytes();
     stream.IsWriting = false;
     stream.Reset();
     
