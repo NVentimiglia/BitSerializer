@@ -1066,11 +1066,11 @@ namespace NVentimiglia
         /// <summary>
         /// READ / WRITE BASED ON this.IsWriting FLAG
         /// </summary>
-        public unsafe void Parse<T>(ref T value) where T : struct, IBitModel
+        public unsafe void Parse<T>(ref T value) where T : IBitModel, new()
         {
             value.Parse(this);
         }
-        public unsafe T Parse<T>(T value) where T : struct, IBitModel
+        public unsafe T Parse<T>(T value) where T : IBitModel, new()
         {
             Parse(ref value);
             return value;
@@ -1079,7 +1079,7 @@ namespace NVentimiglia
         /// <summary>
         /// READ / WRITE BASED ON this.IsWriting FLAG
         /// </summary>
-        public unsafe void Parse<T>(ref T[] value) where T : struct, IBitModel
+        public unsafe void Parse<T>(ref T[] value) where T : IBitModel, new()
         {
             if (IsWriting)
             {
@@ -1111,7 +1111,7 @@ namespace NVentimiglia
             }
         }
 
-        public unsafe T[] Parse<T>(T[] value) where T : struct, IBitModel
+        public unsafe T[] Parse<T>(T[] value) where T : IBitModel, new()
         {
             Parse(ref value);
             return value;
@@ -1120,7 +1120,7 @@ namespace NVentimiglia
         /// <summary>
         /// READ / WRITE BASED ON this.IsWriting FLAG
         /// </summary>
-        public unsafe void Parse<T>(ref System.Collections.Generic.List<T> value) where T : struct, IBitModel
+        public unsafe void Parse<T>(ref System.Collections.Generic.List<T> value) where T : IBitModel, new()
         {
             if (value == null)
                 value = new System.Collections.Generic.List<T>();
@@ -1147,7 +1147,7 @@ namespace NVentimiglia
                 //ordered
                 for (int i = 0; i < length; i++)
                 {
-                    T _item = default(T);
+                    T _item = new T();
                     Parse(ref _item);
                     if (i >= value.Count)
                         value.Add(_item);
@@ -1169,6 +1169,55 @@ namespace NVentimiglia
             return value;
         }
 
+        #endregion
+
+        #region Helpers
+
+        public T ReadFrom<T>(byte[] payload) where T : IBitModel, new()
+        {
+            var model = new T();
+
+            Reset();
+            IsWriting = true;
+
+            var original = Data;
+            Data = payload;
+            try
+            {
+                model.Parse(this);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                Data = original;
+            }
+            return model;
+        }
+
+        public void WriteTo<T>(T model, byte[] payload) where T : IBitModel, new()
+        {
+            Reset();
+            IsWriting = false;
+
+            var original = Data;
+            Data = payload;
+            try
+            {
+                model.Parse(this);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                Data = original;
+            }
+
+        }
         #endregion
     }
 }
