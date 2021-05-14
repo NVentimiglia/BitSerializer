@@ -1,0 +1,2 @@
+# BitSerializer
+Minimal binary serializer
