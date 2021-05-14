@@ -47,7 +47,7 @@
         }
     }
 
-### Polmorphism
+### Polymorphism
 - For polymorphism, I write a enum / const which maps a type to a byte. 
 - In my writer, I will preface my serailization with a header byte to identify the type.
 - In my reader, I will read the byte and use a switch statement to deserialize the right type.
