@@ -7,7 +7,6 @@
 
 ### Implementation Strategy
 - Use one method 'Parse' and recursion to eliminate superfluous header data and separate read/write methods.
-- Manage a internal buffer inside the serializer to minimize copies.
 
 ### Serialization
     var stream = new BitSerializer(); 
