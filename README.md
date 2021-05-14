@@ -20,7 +20,6 @@
     // This writes 'data' and 'myObject' into the internal buffer
     stream.Parse(ref data);
     stream.Parse(ref myObject);
-    stream.Parse(myObject);
 
     _socket.PostBytes(stream.Data, stream.Index);
     
