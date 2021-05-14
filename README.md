@@ -35,7 +35,15 @@
     IBitModel myObject;
     stream.Parse(ref myObject);
     myObject = stream.Parse(myObject);
+
+### Helpers
+    var stream = new BitSerializer(); 
     
+    IBitModel model = stream.ReadFrom<IBitModel>(byte[] buffer);
+    IBitModel model = stream.Read<IBitModel>();
+
+    stream.WriteTo<IBitModel>(model, byte[] buffer);
+    stream.Write<IBitModel>(model);    
       
 ### IBitModel
     public struct MyObject : IBitModel

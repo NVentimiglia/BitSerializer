@@ -1172,6 +1172,21 @@ namespace NVentimiglia
         #endregion
 
         #region Helpers
+        public T Read<T>() where T : IBitModel, new()
+        {
+            var model = new T();
+            Reset();
+            IsWriting = true;
+            model.Parse(this);
+            return model;
+        }
+
+        public void Write<T>(T model) where T : IBitModel, new()
+        {
+            Reset();
+            IsWriting = false;
+            model.Parse(this);
+        }
 
         public T ReadFrom<T>(byte[] payload) where T : IBitModel, new()
         {
@@ -1216,7 +1231,6 @@ namespace NVentimiglia
             {
                 Data = original;
             }
-
         }
         #endregion
     }
