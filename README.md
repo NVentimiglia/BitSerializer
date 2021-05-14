@@ -32,7 +32,7 @@
     
       
 ### IBitModel
-    public struct MyObject : IBitModel, IEquatable<MyObject>
+    public struct MyObject : IBitModel
     {
         public int x;
         public int y;
