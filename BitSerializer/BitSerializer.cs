@@ -47,7 +47,7 @@ namespace NVentimiglia
         /// Write Data index, size
         /// </summary>
         public int WriteIndex;
-        
+
         /// <summary>
         /// Data
         /// </summary>
@@ -126,7 +126,7 @@ namespace NVentimiglia
         }
 
         #endregion
-        
+
         #region Peek              
 
         public unsafe byte PeekByte()
@@ -139,7 +139,7 @@ namespace NVentimiglia
         public unsafe sbyte PeekSByte()
         {
             Ensures(Data.Length >= ReadIndex + sizeof(sbyte));
-            return (sbyte) Data[ReadIndex];
+            return (sbyte)Data[ReadIndex];
         }
 
         public unsafe bool PeekBool()
@@ -239,6 +239,11 @@ namespace NVentimiglia
                 ReadIndex += sizeof(byte);
             }
         }
+        public byte Parse(byte value)
+        {
+            Parse(ref value);
+            return value;
+        }
 
         public unsafe void Parse(ref sbyte value)
         {
@@ -256,6 +261,11 @@ namespace NVentimiglia
                 value = (sbyte)Data[ReadIndex];
                 ReadIndex += sizeof(sbyte);
             }
+        }
+        public sbyte Parse(sbyte value)
+        {
+            Parse(ref value);
+            return value;
         }
 
         public unsafe void Parse(ref bool value)
@@ -336,6 +346,12 @@ namespace NVentimiglia
             }
         }
 
+        public ushort Parse(ushort value)
+        {
+            Parse(ref value);
+            return value;
+        }
+
         public unsafe void Parse(ref int value)
         {
             if (IsWriting)
@@ -390,6 +406,12 @@ namespace NVentimiglia
             }
         }
 
+        public uint Parse(uint value)
+        {
+            Parse(ref value);
+            return value;
+        }
+
         public unsafe void Parse(ref long value)
         {
             if (IsWriting)
@@ -412,6 +434,11 @@ namespace NVentimiglia
                 }
                 ReadIndex += sizeof(long);
             }
+        }
+        public long Parse(long value)
+        {
+            Parse(ref value);
+            return value;
         }
 
         public unsafe void Parse(ref ulong value)
@@ -436,6 +463,11 @@ namespace NVentimiglia
                 }
                 ReadIndex += sizeof(ulong);
             }
+        }
+        public ulong Parse(ulong value)
+        {
+            Parse(ref value);
+            return value;
         }
 
         public unsafe void Parse(ref double value)
@@ -463,6 +495,12 @@ namespace NVentimiglia
             }
         }
 
+        public double Parse(double value)
+        {
+            Parse(ref value);
+            return value;
+        }
+
         public unsafe void Parse(ref float value)
         {
             if (IsWriting)
@@ -485,6 +523,12 @@ namespace NVentimiglia
                 }
                 ReadIndex += sizeof(float);
             }
+        }
+
+        public float Parse(float value)
+        {
+            Parse(ref value);
+            return value;
         }
 
         public unsafe void Parse(ref Guid value)
@@ -524,6 +568,12 @@ namespace NVentimiglia
             value = DateTime.FromBinary(ticks);
         }
 
+        public DateTime Parse(DateTime value)
+        {
+            Parse(ref value);
+            return value;
+        }
+
         #endregion
 
         #region ARRAYS
@@ -553,6 +603,12 @@ namespace NVentimiglia
             }
         }
 
+        public unsafe byte[] Parse(byte[] value)
+        {
+            Parse(ref value);
+            return value;
+        }
+
         public unsafe void Parse(ref bool[] value)
         {
             if (IsWriting)
@@ -579,6 +635,11 @@ namespace NVentimiglia
                     Parse(ref value[i]);
                 }
             }
+        }
+        public unsafe bool[] Parse(bool[] value)
+        {
+            Parse(ref value);
+            return value;
         }
 
         public unsafe void Parse(ref ushort[] value)
@@ -608,6 +669,11 @@ namespace NVentimiglia
                 }
             }
         }
+        public unsafe ushort[] Parse(ushort[] value)
+        {
+            Parse(ref value);
+            return value;
+        }
 
         public unsafe void Parse(ref short[] value)
         {
@@ -635,6 +701,11 @@ namespace NVentimiglia
                     Parse(ref value[i]);
                 }
             }
+        }
+        public unsafe short[] Parse(short[] value)
+        {
+            Parse(ref value);
+            return value;
         }
 
         public unsafe void Parse(ref int[] value)
@@ -664,6 +735,11 @@ namespace NVentimiglia
                 }
             }
         }
+        public unsafe int[] Parse(int[] value)
+        {
+            Parse(ref value);
+            return value;
+        }
 
         public unsafe void Parse(ref uint[] value)
         {
@@ -691,6 +767,11 @@ namespace NVentimiglia
                     Parse(ref value[i]);
                 }
             }
+        }
+        public unsafe uint[] Parse(uint[] value)
+        {
+            Parse(ref value);
+            return value;
         }
 
         public unsafe void Parse(ref long[] value)
@@ -720,6 +801,11 @@ namespace NVentimiglia
                 }
             }
         }
+        public unsafe long[] Parse(long[] value)
+        {
+            Parse(ref value);
+            return value;
+        }
 
         public unsafe void Parse(ref ulong[] value)
         {
@@ -747,6 +833,11 @@ namespace NVentimiglia
                     Parse(ref value[i]);
                 }
             }
+        }
+        public unsafe ulong[] Parse(ulong[] value)
+        {
+            Parse(ref value);
+            return value;
         }
 
         public unsafe void Parse(ref double[] value)
@@ -776,6 +867,11 @@ namespace NVentimiglia
                 }
             }
         }
+        public unsafe double[] Parse(double[] value)
+        {
+            Parse(ref value);
+            return value;
+        }
 
         public unsafe void Parse(ref float[] value)
         {
@@ -803,6 +899,11 @@ namespace NVentimiglia
                     Parse(ref value[i]);
                 }
             }
+        }
+        public unsafe float[] Parse(float[] value)
+        {
+            Parse(ref value);
+            return value;
         }
 
         #endregion
@@ -833,6 +934,12 @@ namespace NVentimiglia
             }
         }
 
+        public unsafe char Parse(char value)
+        {
+            Parse(ref value);
+            return value;
+        }
+
         public unsafe void Parse(ref string value)
         {
             if (IsWriting)
@@ -857,6 +964,13 @@ namespace NVentimiglia
                 value = Encoding.UTF8.GetString(buffer);
             }
         }
+
+        public unsafe string Parse(string value)
+        {
+            Parse(ref value);
+            return value;
+        }
+
 
         public unsafe void Parse(ref string[] value)
         {
@@ -884,6 +998,12 @@ namespace NVentimiglia
                     Parse(ref value[i]);
                 }
             }
+        }
+
+        public unsafe string[] Parse(string[] value)
+        {
+            Parse(ref value);
+            return value;
         }
 
         #endregion
@@ -955,7 +1075,12 @@ namespace NVentimiglia
         {
             value.Parse(this);
         }
-        
+        public unsafe T Parse<T>(T value) where T : struct, IBitModel
+        {
+            Parse(ref value);
+            return value;
+        }
+
         /// <summary>
         /// READ / WRITE BASED ON this.IsWriting FLAG
         /// </summary>
@@ -989,6 +1114,12 @@ namespace NVentimiglia
                     Parse(ref value[i]);
                 }
             }
+        }
+
+        public unsafe T[] Parse<T>(T[] value) where T : struct, IBitModel
+        {
+            Parse(ref value);
+            return value;
         }
 
         /// <summary>
@@ -1036,7 +1167,13 @@ namespace NVentimiglia
                 }
             }
         }
-      
+
+        public unsafe System.Collections.Generic.List<T> Parse<T>(System.Collections.Generic.List<T> value) where T : struct, IBitModel
+        {
+            Parse(ref value);
+            return value;
+        }
+
         #endregion
     }
 }
