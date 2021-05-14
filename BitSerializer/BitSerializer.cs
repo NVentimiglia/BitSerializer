@@ -39,14 +39,9 @@ namespace NVentimiglia
         public bool IsWriting;
 
         /// <summary>
-        /// Read Data index.
+        /// Read Data index. Position.
         /// </summary>
-        public int ReadIndex;
-
-        /// <summary>
-        /// Write Data index, size
-        /// </summary>
-        public int WriteIndex;
+        public int Index;
 
         /// <summary>
         /// Data
@@ -73,7 +68,7 @@ namespace NVentimiglia
         /// </summary>
         public virtual void Reset()
         {
-            ReadIndex = WriteIndex = 0;
+            Index = 0;
         }
 
         /// <summary>
@@ -109,8 +104,8 @@ namespace NVentimiglia
         /// </summary>
         public byte[] Copy()
         {
-            var b = new byte[WriteIndex];
-            Buffer.BlockCopy(Data, 0, b, 0, WriteIndex);
+            var b = new byte[Index];
+            Buffer.BlockCopy(Data, 0, b, 0, Index);
             return b;
         }
 
@@ -131,90 +126,90 @@ namespace NVentimiglia
 
         public unsafe byte PeekByte()
         {
-            Ensures(Data.Length >= ReadIndex + sizeof(byte));
+            Ensures(Data.Length >= Index + sizeof(byte));
 
-            return Data[ReadIndex];
+            return Data[Index];
         }
 
         public unsafe sbyte PeekSByte()
         {
-            Ensures(Data.Length >= ReadIndex + sizeof(sbyte));
-            return (sbyte)Data[ReadIndex];
+            Ensures(Data.Length >= Index + sizeof(sbyte));
+            return (sbyte)Data[Index];
         }
 
         public unsafe bool PeekBool()
         {
-            Ensures(Data.Length >= ReadIndex + sizeof(sbyte));
+            Ensures(Data.Length >= Index + sizeof(sbyte));
 
             bool value;
 
             fixed (byte* ptr = Data)
             {
-                value = *(bool*)(ptr + ReadIndex);
+                value = *(bool*)(ptr + Index);
             }
             return value;
         }
 
         public unsafe short PeekShort()
         {
-            Ensures(Data.Length >= ReadIndex + sizeof(sbyte));
+            Ensures(Data.Length >= Index + sizeof(sbyte));
 
             short value;
 
             fixed (byte* ptr = Data)
             {
-                value = *(short*)(ptr + ReadIndex);
+                value = *(short*)(ptr + Index);
             }
             return value;
         }
 
         public unsafe ushort PeekUShort()
         {
-            Ensures(Data.Length >= ReadIndex + sizeof(sbyte));
+            Ensures(Data.Length >= Index + sizeof(sbyte));
 
             ushort value;
 
             fixed (byte* ptr = Data)
             {
-                value = *(ushort*)(ptr + ReadIndex);
+                value = *(ushort*)(ptr + Index);
             }
             return value;
         }
 
         public unsafe int PeekInt()
         {
-            Ensures(Data.Length >= ReadIndex + sizeof(sbyte));
+            Ensures(Data.Length >= Index + sizeof(sbyte));
 
             int value;
 
             fixed (byte* ptr = Data)
             {
-                value = *(int*)(ptr + ReadIndex);
+                value = *(int*)(ptr + Index);
             }
             return value;
         }
 
         public unsafe uint PeekUInt()
         {
-            Ensures(Data.Length >= ReadIndex + sizeof(sbyte));
+            Ensures(Data.Length >= Index + sizeof(sbyte));
 
             uint value;
 
             fixed (byte* ptr = Data)
             {
-                value = *(uint*)(ptr + ReadIndex);
+                value = *(uint*)(ptr + Index);
             }
             return value;
         }
 
         public unsafe Guid PeekGuid()
         {
-            Ensures(Data.Length >= ReadIndex + sizeof(Guid));
+            Ensures(Data.Length >= Index + sizeof(Guid));
             Guid value;
 
             fixed (byte* ptr = Data)
             {
-                value = *(Guid*)(ptr + ReadIndex);
+                value = *(Guid*)(ptr + Index);
             }
             return value;
         }
@@ -226,17 +221,17 @@ namespace NVentimiglia
         {
             if (IsWriting)
             {
-                Ensures(Data.Length >= WriteIndex + sizeof(byte));
+                Ensures(Data.Length >= Index + sizeof(byte));
 
-                Data[WriteIndex] = value;
-                WriteIndex += sizeof(byte);
+                Data[Index] = value;
+                Index += sizeof(byte);
             }
             else
             {
-                Ensures(Data.Length >= ReadIndex + sizeof(byte));
+                Ensures(Data.Length >= Index + sizeof(byte));
 
-                value = Data[ReadIndex];
-                ReadIndex += sizeof(byte);
+                value = Data[Index];
+                Index += sizeof(byte);
             }
         }
         public byte Parse(byte value)
@@ -249,17 +244,17 @@ namespace NVentimiglia
         {
             if (IsWriting)
             {
-                Ensures(Data.Length >= WriteIndex + sizeof(sbyte));
+                Ensures(Data.Length >= Index + sizeof(sbyte));
 
-                Data[WriteIndex] = (byte)value;
-                WriteIndex += sizeof(sbyte);
+                Data[Index] = (byte)value;
+                Index += sizeof(sbyte);
             }
             else
             {
-                Ensures(Data.Length >= ReadIndex + sizeof(sbyte));
+                Ensures(Data.Length >= Index + sizeof(sbyte));
 
-                value = (sbyte)Data[ReadIndex];
-                ReadIndex += sizeof(sbyte);
+                value = (sbyte)Data[Index];
+                Index += sizeof(sbyte);
             }
         }
         public sbyte Parse(sbyte value)
@@ -272,23 +267,23 @@ namespace NVentimiglia
         {
             if (IsWriting)
             {
-                Ensures(Data.Length >= WriteIndex + sizeof(bool));
+                Ensures(Data.Length >= Index + sizeof(bool));
 
                 fixed (byte* ptr = Data)
                 {
-                    *(bool*)(ptr + WriteIndex) = value;
+                    *(bool*)(ptr + Index) = value;
                 }
-                WriteIndex += sizeof(bool);
+                Index += sizeof(bool);
             }
             else
             {
-                Ensures(Data.Length >= ReadIndex + sizeof(bool));
+                Ensures(Data.Length >= Index + sizeof(bool));
 
                 fixed (byte* ptr = Data)
                 {
-                    value = *(bool*)(ptr + ReadIndex);
+                    value = *(bool*)(ptr + Index);
                 }
-                ReadIndex += sizeof(bool);
+                Index += sizeof(bool);
             }
         }
 
@@ -302,23 +297,23 @@ namespace NVentimiglia
         {
             if (IsWriting)
             {
-                Ensures(Data.Length >= WriteIndex + sizeof(short));
+                Ensures(Data.Length >= Index + sizeof(short));
 
                 fixed (byte* ptr = Data)
                 {
-                    *(short*)(ptr + WriteIndex) = value;
+                    *(short*)(ptr + Index) = value;
                 }
-                WriteIndex += sizeof(short);
+                Index += sizeof(short);
             }
             else
             {
-                Ensures(Data.Length >= ReadIndex + sizeof(short));
+                Ensures(Data.Length >= Index + sizeof(short));
 
                 fixed (byte* ptr = Data)
                 {
-                    value = *(short*)(ptr + ReadIndex);
+                    value = *(short*)(ptr + Index);
                 }
-                ReadIndex += sizeof(short);
+                Index += sizeof(short);
             }
         }
 
@@ -326,23 +321,23 @@ namespace NVentimiglia
         {
             if (IsWriting)
             {
-                Ensures(Data.Length >= WriteIndex + sizeof(ushort));
+                Ensures(Data.Length >= Index + sizeof(ushort));
 
                 fixed (byte* ptr = Data)
                 {
-                    *(ushort*)(ptr + WriteIndex) = value;
+                    *(ushort*)(ptr + Index) = value;
                 }
-                WriteIndex += sizeof(ushort);
+                Index += sizeof(ushort);
             }
             else
             {
-                Ensures(Data.Length >= ReadIndex + sizeof(ushort));
+                Ensures(Data.Length >= Index + sizeof(ushort));
 
                 fixed (byte* ptr = Data)
                 {
-                    value = *(ushort*)(ptr + ReadIndex);
+                    value = *(ushort*)(ptr + Index);
                 }
-                ReadIndex += sizeof(ushort);
+                Index += sizeof(ushort);
             }
         }
 
@@ -356,23 +351,23 @@ namespace NVentimiglia
         {
             if (IsWriting)
             {
-                Ensures(Data.Length >= WriteIndex + sizeof(int));
+                Ensures(Data.Length >= Index + sizeof(int));
 
                 fixed (byte* ptr = Data)
                 {
-                    *(int*)(ptr + WriteIndex) = value;
+                    *(int*)(ptr + Index) = value;
                 }
-                WriteIndex += sizeof(int);
+                Index += sizeof(int);
             }
             else
             {
-                Ensures(Data.Length >= ReadIndex + sizeof(int));
+                Ensures(Data.Length >= Index + sizeof(int));
 
                 fixed (byte* ptr = Data)
                 {
-                    value = *(int*)(ptr + ReadIndex);
+                    value = *(int*)(ptr + Index);
                 }
-                ReadIndex += sizeof(int);
+                Index += sizeof(int);
             }
         }
 
@@ -386,23 +381,23 @@ namespace NVentimiglia
         {
             if (IsWriting)
             {
-                Ensures(Data.Length >= WriteIndex + sizeof(uint));
+                Ensures(Data.Length >= Index + sizeof(uint));
 
                 fixed (byte* ptr = Data)
                 {
-                    *(uint*)(ptr + WriteIndex) = value;
+                    *(uint*)(ptr + Index) = value;
                 }
-                WriteIndex += sizeof(uint);
+                Index += sizeof(uint);
             }
             else
             {
-                Ensures(Data.Length >= ReadIndex + sizeof(uint));
+                Ensures(Data.Length >= Index + sizeof(uint));
 
                 fixed (byte* ptr = Data)
                 {
-                    value = *(uint*)(ptr + ReadIndex);
+                    value = *(uint*)(ptr + Index);
                 }
-                ReadIndex += sizeof(uint);
+                Index += sizeof(uint);
             }
         }
 
@@ -416,23 +411,23 @@ namespace NVentimiglia
         {
             if (IsWriting)
             {
-                Ensures(Data.Length >= WriteIndex + sizeof(long));
+                Ensures(Data.Length >= Index + sizeof(long));
 
                 fixed (byte* ptr = Data)
                 {
-                    *(long*)(ptr + WriteIndex) = value;
+                    *(long*)(ptr + Index) = value;
                 }
-                WriteIndex += sizeof(long);
+                Index += sizeof(long);
             }
             else
             {
-                Ensures(Data.Length >= ReadIndex + sizeof(long));
+                Ensures(Data.Length >= Index + sizeof(long));
 
                 fixed (byte* ptr = Data)
                 {
-                    value = *(long*)(ptr + ReadIndex);
+                    value = *(long*)(ptr + Index);
                 }
-                ReadIndex += sizeof(long);
+                Index += sizeof(long);
             }
         }
         public long Parse(long value)
@@ -445,23 +440,23 @@ namespace NVentimiglia
         {
             if (IsWriting)
             {
-                Ensures(Data.Length >= WriteIndex + sizeof(ulong));
+                Ensures(Data.Length >= Index + sizeof(ulong));
 
                 fixed (byte* ptr = Data)
                 {
-                    *(ulong*)(ptr + WriteIndex) = value;
+                    *(ulong*)(ptr + Index) = value;
                 }
-                WriteIndex += sizeof(ulong);
+                Index += sizeof(ulong);
             }
             else
             {
-                Ensures(Data.Length >= ReadIndex + sizeof(ulong));
+                Ensures(Data.Length >= Index + sizeof(ulong));
 
                 fixed (byte* ptr = Data)
                 {
-                    value = *(ulong*)(ptr + ReadIndex);
+                    value = *(ulong*)(ptr + Index);
                 }
-                ReadIndex += sizeof(ulong);
+                Index += sizeof(ulong);
             }
         }
         public ulong Parse(ulong value)
@@ -475,23 +470,23 @@ namespace NVentimiglia
 
             if (IsWriting)
             {
-                Ensures(Data.Length >= WriteIndex + sizeof(double));
+                Ensures(Data.Length >= Index + sizeof(double));
 
                 fixed (byte* ptr = Data)
                 {
-                    *(double*)(ptr + WriteIndex) = value;
+                    *(double*)(ptr + Index) = value;
                 }
-                WriteIndex += sizeof(double);
+                Index += sizeof(double);
             }
             else
             {
-                Ensures(Data.Length >= ReadIndex + sizeof(double));
+                Ensures(Data.Length >= Index + sizeof(double));
 
                 fixed (byte* ptr = Data)
                 {
-                    value = *(double*)(ptr + ReadIndex);
+                    value = *(double*)(ptr + Index);
                 }
-                ReadIndex += sizeof(double);
+                Index += sizeof(double);
             }
         }
 
@@ -505,23 +500,23 @@ namespace NVentimiglia
         {
             if (IsWriting)
             {
-                Ensures(Data.Length >= WriteIndex + sizeof(float));
+                Ensures(Data.Length >= Index + sizeof(float));
 
                 fixed (byte* ptr = Data)
                 {
-                    *(float*)(ptr + WriteIndex) = value;
+                    *(float*)(ptr + Index) = value;
                 }
-                WriteIndex += sizeof(float);
+                Index += sizeof(float);
             }
             else
             {
-                Ensures(Data.Length >= ReadIndex + sizeof(float));
+                Ensures(Data.Length >= Index + sizeof(float));
 
                 fixed (byte* ptr = Data)
                 {
-                    value = *(float*)(ptr + ReadIndex);
+                    value = *(float*)(ptr + Index);
                 }
-                ReadIndex += sizeof(float);
+                Index += sizeof(float);
             }
         }
 
@@ -535,23 +530,23 @@ namespace NVentimiglia
         {
             if (IsWriting)
             {
-                Ensures(Data.Length >= WriteIndex + sizeof(Guid));
+                Ensures(Data.Length >= Index + sizeof(Guid));
 
                 fixed (byte* ptr = Data)
                 {
-                    *(Guid*)(ptr + WriteIndex) = value;
+                    *(Guid*)(ptr + Index) = value;
                 }
-                WriteIndex += sizeof(Guid);
+                Index += sizeof(Guid);
             }
             else
             {
-                Ensures(Data.Length >= ReadIndex + sizeof(Guid));
+                Ensures(Data.Length >= Index + sizeof(Guid));
 
                 fixed (byte* ptr = Data)
                 {
-                    value = *(Guid*)(ptr + ReadIndex);
+                    value = *(Guid*)(ptr + Index);
                 }
-                ReadIndex += sizeof(Guid);
+                Index += sizeof(Guid);
             }
         }
 
@@ -585,9 +580,9 @@ namespace NVentimiglia
                 var length = value == null ? 0 : value.Length;
                 Parse(ref length);
 
-                Buffer.BlockCopy(value, 0, Data, WriteIndex, value.Length);
+                Buffer.BlockCopy(value, 0, Data, Index, value.Length);
 
-                WriteIndex += length;
+                Index += length;
             }
             else
             {
@@ -597,9 +592,9 @@ namespace NVentimiglia
                 value = new byte[length];
                 if (length > 0)
                 {
-                    Buffer.BlockCopy(Data, ReadIndex, value, 0, length);
+                    Buffer.BlockCopy(Data, Index, value, 0, length);
                 }
-                ReadIndex += length;
+                Index += length;
             }
         }
 
@@ -914,23 +909,23 @@ namespace NVentimiglia
         {
             if (IsWriting)
             {
-                Ensures(Data.Length >= WriteIndex + sizeof(char));
+                Ensures(Data.Length >= Index + sizeof(char));
 
                 fixed (byte* ptr = Data)
                 {
-                    *(char*)(ptr + WriteIndex) = value;
+                    *(char*)(ptr + Index) = value;
                 }
-                WriteIndex += sizeof(char);
+                Index += sizeof(char);
             }
             else
             {
-                Ensures(Data.Length >= ReadIndex + sizeof(char));
+                Ensures(Data.Length >= Index + sizeof(char));
 
                 fixed (byte* ptr = Data)
                 {
-                    value = *(char*)(ptr + ReadIndex);
+                    value = *(char*)(ptr + Index);
                 }
-                ReadIndex += sizeof(char);
+                Index += sizeof(char);
             }
         }
 
