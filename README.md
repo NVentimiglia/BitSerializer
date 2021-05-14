@@ -15,12 +15,12 @@
     stream.Reset();
     
     int data = 999;
-    stream.Parse(ref data);
-    data = stream.Parse(data);
-    
     IBitModel myObject;
+
+    // This writes 'data' and 'myObject' into the internal buffer
+    stream.Parse(ref data);
     stream.Parse(ref myObject);
-    myObject = stream.Parse(myObject);
+    stream.Parse(myObject);
 
     _socket.PostBytes(stream.Data, stream.Index);
     
@@ -32,12 +32,11 @@
     stream.Reset();
     
     int data = 999;
-    stream.Parse(ref data);
-    data = stream.Parse(data);
-    
     IBitModel myObject;
-    stream.Parse(ref myObject);
-    myObject = stream.Parse(myObject);
+
+    // This reads 'data' and 'myObject' from the internal buffer
+    stream.Parse(ref data);
+    stream.Parse(ref myObject);    
 
 ### Helpers
     var stream = new BitSerializer(); 
@@ -53,7 +52,7 @@
     public struct MyObject : IBitModel
     {
         public int x;
-        public int y { get; set; }
+        public int y;
 
         public MyObject[] children;
 
@@ -62,7 +61,7 @@
             // One method for mapping objects
             // Uses recursion to eliminate headers
             stream.Parse(ref x);
-            y = stream.Parse(y);
+            stream.Parse(ref y);
             stream.Parse(ref children);
         }
     }
